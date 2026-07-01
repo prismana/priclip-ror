@@ -1,0 +1,31 @@
+<div>
+    <div>
+        <h1>Edit Clip: <%= @clip.name %></h1>
+
+        <%= form_with model: @clip, local: true do |f| %>
+            <% if @clip.errors.any? %>
+                <div>
+                    <% @clip.error.full_messages.each do |msg| %>
+                        <p><%= msg %></p>
+                    <% end %>
+                </div>
+            <% end %>
+
+            <div>
+                <div>
+                    <%= f.label :name, "Clip Name" %>
+                    <%= f.text_field :name %>
+                </div>
+                <div>
+                    <%= f.label :name, "Clip Name" %>
+                    <%= f.text_field :name %>
+                </div>
+                <div>
+                    <%= f.submit %>
+                    <%= link_to "Cancel", dashboard_path %>
+                </div>
+            </div>
+
+        <% end %>
+    </div>
+</div>

@@ -1,0 +1,34 @@
+<div class="min-h-screen bg-gray-50">
+  <div class="max-w-2xl mx-auto px-4 pt-8">
+    <div class="bg-white rounded-lg shadow p-6">
+      <div class="flex items-center justify-between mb-4">
+        <h1 class="text-2xl font-bold text-gray-900"><%= @clip.name %></h1>
+        <div class="flex gap-2">
+          <%= link_to "Edit", edit_clip_path(@clip),
+              class: "px-3 py-1 text-sm text-blue-600 border border-blue-300 rounded hover:bg-blue-50" %>
+          <%= button_to "Delete", clip_path(@clip), method: :delete,
+              class: "px-3 py-1 text-sm text-red-600 border border-red-300 rounded hover:bg-red-50 cursor-pointer",
+              confirm: "Are you sure?" %>
+        </div>
+      </div>
+
+      <div class="text-gray-700 bg-gray-50 rounded p-4 break-words">
+        <%= auto_link_content(@clip.content) %>
+      </div>
+
+      <div class="mt-4">
+        <button onclick="copyClip('<%= @clip.id %>')"
+            class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded cursor-pointer">
+          📋 Copy to Clipboard
+        </button>
+        <span id="copy-msg-<%= @clip.id %>" class="text-xs text-green-600 ml-1 hidden">Copied!</span>
+      </div>
+
+      <textarea id="clip-content-<%= @clip.id %>" class="hidden"><%= @clip.content %></textarea>
+
+      <div class="mt-4">
+        <%= link_to "← Back to Dashboard", dashboard_path, class: "text-blue-600 hover:underline" %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,72 @@
+<div>
+    <div>
+        <div>
+            <h1>Your Clipboard</h1>
+            <%= button_to "Leave", logout_path, method: :delete %>
+        </div>
+    </div>
+
+    <!--Search Bar-->
+    <div>
+        <%= form_with url: dashboard_path, method: :get, local: true do %>
+            <%= text_field_tag :query, @query,
+                placeholder: "Search clips by name..." %>
+            <%= submit_tag "Search" %>
+        <% end %>
+    </div>
+
+    <!--New CLip Button-->
+    <div>
+        <%= link_to "+ New Clip", new_clip_path %>
+    </div>
+
+    <!--Clip List-->
+    <div>
+        <% if @clips.any? %>
+            <% @clips.each do |clip| %>
+                <div>
+                    <div>
+                        <h3> <%= link_to clip.name, clip_path(clip) %> </h3>
+                        <div>
+                            <%= link_to "Edit", edit_clip_path(clip) %>
+                            <%= button_to "Delete", clip_path(clip), method: :delete,
+                                confirm: "Are you sure?" %>
+                        </div>
+                    </div>
+
+                    <!--Content with auto-detected-->
+                    <div>
+                        <%= auto_link_content(clip.content) %>
+                    </div>
+
+                    <!--Copy button-->
+                    <div>
+                        <button onClick="copyClip(<%= clip.id %>)">
+                            📋 Copy
+                        </button>
+                        <span id="copy-msg-<%= clip.id %>">Copied!</span>
+                    </div>
+
+                    <!--Hidden textarea for copying-->
+                    <textarea id="clip-content-<%= clip.id %>"> <%= clip.content %> </textarea>
+                </div>
+            <% end %>
+
+            <!--Pagination-->
+            <div>
+                <% if @page > 1 %>
+                    <%= link_to "&lt;- Prev", dashboard_path(query: @query, page: @page - 1) %>
+                <% end %>
+
+                <span>Page <%= @page %> of <%= @total_pages %> </span>
+
+                <% if @page < @total_pages %>
+                    <%= link_to "Next -&gt;", dashboard_path(query: @query, page: @page + 1) %>
+                <% end %>
+            </div>
+
+        <% else %>
+            <p>No clips found. Create your first clip!</p>
+        <% end %>
+    </div>
+</div>

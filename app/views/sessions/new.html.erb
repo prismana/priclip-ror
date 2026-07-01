@@ -1,0 +1,48 @@
+<div class="min-h-screen flex items-center justify-center bg-gray-50">
+  <div class="max-w-md w-full space-y-8 p-8 bg-white rounded-xl shadow-lg">
+    <div>
+      <h2 class="text-center text-3xl font-extrabold text-gray-900">
+        🔗 ClipSync
+      </h2>
+      <p class="mt-2 text-center text-sm text-gray-600">
+        Access your clips from anywhere
+      </p>
+    </div>
+
+    <!-- ACCESS EXISTING CLIPS -->
+    <div class="space-y-4">
+      <h3 class="text-lg font-semibold text-gray-700">Access your clips</h3>
+      <%= form_with url: sessions_path, method: :post, local: true do |f| %>
+        <div>
+          <%= text_field_tag :code, nil,
+              placeholder: "Enter your 5-digit code",
+              class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-center text-2xl tracking-widest",
+              maxlength: 5,
+              pattern: "[0-9]{5}" %>
+        </div>
+        <%= hidden_field_tag :action_type, "access" %>
+        <%= f.submit "Access Clips",
+            class: "w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 cursor-pointer" %>
+      <% end %>
+    </div>
+
+    <hr class="border-gray-200">
+
+    <!-- CREATE NEW CODE -->
+    <div class="space-y-4">
+      <h3 class="text-lg font-semibold text-gray-700">New user? Create a code</h3>
+      <%= form_with url: sessions_path, method: :post, local: true do |f| %>
+        <div>
+          <%= text_field_tag :code, nil,
+              placeholder: "Choose a 5-digit code",
+              class: "block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 text-center text-2xl tracking-widest",
+              maxlength: 5,
+              pattern: "[0-9]{5}" %>
+        </div>
+        <%= hidden_field_tag :action_type, "create_new" %>
+        <%= f.submit "Create Code",
+            class: "w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 cursor-pointer" %>
+      <% end %>
+    </div>
+  </div>
+</div>
