@@ -12,12 +12,12 @@
         </div>
       </div>
 
-      <div class="text-gray-700 bg-gray-50 rounded p-4 break-words">
+      <div class="text-gray-700 bg-gray-50 rounded p-4 wrap-break-word">
         <%= auto_link_content(@clip.content) %>
       </div>
 
       <div class="mt-4">
-        <button onclick="copyClip('<%= @clip.id %>')"
+        <button onclick="copyClip('<%= @clip.id.to_json %>')"
             class="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded cursor-pointer">
           📋 Copy to Clipboard
         </button>

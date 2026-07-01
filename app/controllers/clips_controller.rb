@@ -26,7 +26,7 @@ class ClipsController < ApplicationController
         if @clip.save
             redirect_to dashboard_path, notice: "Clip created!"
         else
-            render :new, status: :unprocessable_entry
+            render :new, status: :unprocessable_entity
         end
     end
 

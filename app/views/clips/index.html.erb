@@ -1,72 +1,82 @@
-<div>
-    <div>
-        <div>
-            <h1>Your Clipboard</h1>
-            <%= button_to "Leave", logout_path, method: :delete %>
+<div class="min-h-screen bg-gray-50">
+    <!--Header-->
+    <div class="bg-white shadow">
+        <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+            <h1 class="text-2xl font-bold text-gray-900">Your Clipboard</h1>
+            <%= button_to "Leave", logout_path, method: :delete, class: "text-sm text-red-600 hover:text-red-800 cursor-pointer" %>
         </div>
     </div>
 
     <!--Search Bar-->
-    <div>
+    <div class="max-w-5xl mx-auto px-4 pt-6">
         <%= form_with url: dashboard_path, method: :get, local: true do %>
             <%= text_field_tag :query, @query,
-                placeholder: "Search clips by name..." %>
-            <%= submit_tag "Search" %>
+                placeholder: "Search clips by name...",
+                class: "lex-1 rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" %>
+            <%= submit_tag "Search",
+                class: "px-4 py-2 bg-blue-600 text-white rounded-md shadow-sm hover:bg-blue-700 cursor-pointer" %>
         <% end %>
     </div>
 
     <!--New CLip Button-->
-    <div>
-        <%= link_to "+ New Clip", new_clip_path %>
+    <div class="max-w-5xl mx-auto px-4 pt-4 pb-2">
+        <%= link_to "+ New Clip", new_clip_path, class: "inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-md shadow-sm hover:bg-green-700" %>
     </div>
 
     <!--Clip List-->
-    <div>
+    <div class="max-w-5xl mx-auto px-4 space-y-3">
         <% if @clips.any? %>
             <% @clips.each do |clip| %>
-                <div>
-                    <div>
-                        <h3> <%= link_to clip.name, clip_path(clip) %> </h3>
-                        <div>
-                            <%= link_to "Edit", edit_clip_path(clip) %>
+                <div class="bg-white rounded-lg shadow p-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="text-lg font-semibold text-gray-800">
+                            <%= link_to clip.name, clip_path(clip) %>
+                        </h3>
+                        <div class="flex gap-2">
+                            <%= link_to "Edit", edit_clip_path(clip), 
+                                class: "px-2 py-1 text-sm text-blue-600 border border-blue-300 rounded hover:bg-blue-50"
+                            %>
                             <%= button_to "Delete", clip_path(clip), method: :delete,
-                                confirm: "Are you sure?" %>
+                                class: "px-2 py-1 text-sm text-red-600 border border-red-300 rounded hover:bg-red-50 cursor-pointer",
+                                data: { turbo_confirm: "Are you sure?" } %>
                         </div>
                     </div>
 
                     <!--Content with auto-detected-->
-                    <div>
-                        <%= auto_link_content(clip.content) %>
+                    <div class="text-sm text-gray-700 bg-gray-50 rounded p-3 wrap-break-words">
+                        <%= auto_link_content(truncate(clip.content, length: 300)) %>
                     </div>
 
                     <!--Copy button-->
-                    <div>
-                        <button onClick="copyClip(<%= clip.id %>)">
+                    <div class="mt-2">
+                        <button onClick="copyClip('<%= clip.id.to_json %>')" class="px-3 py-1 text-sm bg-gray-200 hover:bg-gray-300 rounded cursor-pointer">
                             📋 Copy
                         </button>
-                        <span id="copy-msg-<%= clip.id %>">Copied!</span>
+                        <span id="copy-msg-<%= clip.id %>" class="text-xs text-green-600 ml-1 hidden">Copied!</span>
                     </div>
 
                     <!--Hidden textarea for copying-->
-                    <textarea id="clip-content-<%= clip.id %>"> <%= clip.content %> </textarea>
+                    <textarea id="clip-content-<%= clip.id %>" class="hidden text-green-600 text-sm ml-2"><%= clip.content %></textarea>
                 </div>
             <% end %>
 
             <!--Pagination-->
-            <div>
+            <div class="flex justify-center gap-2 pt-4 pb-8">
                 <% if @page > 1 %>
-                    <%= link_to "&lt;- Prev", dashboard_path(query: @query, page: @page - 1) %>
+                    <%= link_to "&lt;- Prev", dashboard_path(query: @query, page: @page - 1),
+                   class: "px-3 py-1 bg-gray-200 rounded hover:bg-gray-300" %>
                 <% end %>
 
-                <span>Page <%= @page %> of <%= @total_pages %> </span>
+                <span class="px-3 py-1 text-gray-600">Page <%= @page %> of <%= @total_pages %> </span>
 
                 <% if @page < @total_pages %>
-                    <%= link_to "Next -&gt;", dashboard_path(query: @query, page: @page + 1) %>
+                    <%= link_to "Next -&gt;", dashboard_path(query: @query, page: @page + 1),
+                   class: "px-3 py-1 bg-gray-200 rounded hover:bg-gray-300" %>
                 <% end %>
             </div>
 
         <% else %>
-            <p>No clips found. Create your first clip!</p>
+            <p class="text-gray-500 py-8 text-center">No clips found. Create your first clip!</p>
         <% end %>
     </div>
 </div>
